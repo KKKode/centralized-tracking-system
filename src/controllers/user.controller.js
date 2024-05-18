@@ -48,7 +48,7 @@ const login = async (req, res, next) => {
 
 const self = async (req, res, next) => {
   const userId = req?.currentUser?._id;
-  const data = await UserSchema.findOne({ _id: userId }).select(
+  const data = await UserModel.findOne({ _id: userId }).select(
     "-password -__v -updatedAt"
   );
   res.json({
