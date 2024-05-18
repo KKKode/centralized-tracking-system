@@ -39,10 +39,23 @@ const login = async (req, res, next) => {
     return res.status(200).json({
       message: `Login successful. Welcome back ${user.name}`,
       accessToken: ACCESS_TOKEN,
+      role: user.role,
     });
   } catch (error) {
     next(error);
   }
 };
 
-module.exports = { register, login };
+const self = async (req, res, next) => {
+  const userId = req?.currentUser?._id;
+  const data = await UserSchema.findOne({ _id: userId }).select(
+    "-password -__v -updatedAt"
+  );
+  res.json({
+    success: {
+      data: data,
+    },
+  });
+};
+
+module.exports = { register, login, self };
